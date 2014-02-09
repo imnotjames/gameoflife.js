@@ -1,6 +1,6 @@
 var GameOfLife = function(width, height) {
-	var width = width;
-	var height = height;
+	var width = parseInt(width);
+	var height = parseInt(height);
 
 	var inhabitants = [];
 	var transaction = [];
