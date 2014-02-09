@@ -152,6 +152,10 @@ var GameOfLife = function(width, height) {
 		for (var i in potential) {
 			var cell = getCoordinates(i);
 
+			if (!cell) {
+				continue;
+			}
+
 			var neighborCount = this.countNeighbors(cell.x, cell.y);
 
 			if (neighborCount < 2) {
