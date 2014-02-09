@@ -1,12 +1,21 @@
-var GameOfLife = function(width, height) {
+var GameOfLife = function(width, height, loops) {
 	var width = parseInt(width);
 	var height = parseInt(height);
 
 	var inhabitants = [];
 	var transaction = [];
 
+	var loops = loops !== false;
+
 	var getCoordinates = function(index) {
-		if (index < 0 || index >= width * height) {
+		index = +index;
+
+		var maximum = width * height;
+
+		if (loops) {
+			index += maximum;
+			index %= maximum;
+		} else if (index < 0 || index >= maximum) {
 			return;
 		}
 
@@ -17,13 +26,17 @@ var GameOfLife = function(width, height) {
 	};
 
 	var getIndex = function(x, y) {
-		var index = x + (width * y);
+		if (loops) {
+			x += width;
+			x = x % width;
 
-		if (index < 0 || index >= width * height) {
+			y += height;
+			y = y % height;
+		} else if (x < 0 || x >= width || y < 0 || y >= height) {
 			return;
 		}
 
-		return index;
+		return x + (width * y);
 	};
 
 	var getPotentialCells = function() {
