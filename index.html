@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Game Of Life</title>
+
+		<style type="text/css">
+			html, body { height: 100%; min-height: 100%; width: 100%; min-width: 100%; margin: 0; padding: 0; }			
+		</style>
+
+		<script type="text/javascript" src="src/gameoflife.js"></script>
+		<script type="text/javascript" src="src/helper.js"></script>
+
+		<script type="text/javascript">
+			window.onload = function() {
+				var canvas = document.getElementById('nodes');
+
+				if (canvas.width < document.documentElement.clientWidth) {
+					canvas.width = document.documentElement.clientWidth;
+				}
+
+				if (canvas.height < document.documentElement.clientHeight) {
+					canvas.height = document.documentElement.clientHeight;
+					canvas.height = document.documentElement.clientHeight;
+				}
+
+				var context = canvas.getContext('2d');
+
+				var width = canvas.width;
+				var height = canvas.height;
+
+				var nodeRadius = 15;
+
+				var gameOfLife = new GameOfLife(width / 10, height / 10);
+
+				var helper = new GameOfLifeHelper(gameOfLife);
+
+				helper.drawSchickShip(20, 20, 1);
+				helper.drawSchickShip(50, 20, 3);
+
+				gameOfLife.commit();
+
+				setInterval(
+					function() {
+						gameOfLife.step();
+						gameOfLife.commit();
+					},
+					10
+				);
+
+				function render() {
+					context.clearRect (0, 0, canvas.width, canvas.height);
+
+					context.fillStyle = 'rgba(30, 30, 30, 0.5)';
+					context.strokeStyle = 'rgb(30, 30, 30)';
+
+					var nodes = gameOfLife.getInhabitants();
+
+					for (var i in nodes) {
+						context.beginPath();
+
+						context.arc(
+							(nodes[i].x / gameOfLife.getWidth()) * canvas.width,
+							(nodes[i].y / gameOfLife.getHeight()) * canvas.height,
+							Math.floor(((1 / gameOfLife.getWidth()) * canvas.width) * 0.5) / 2,
+							0,
+							2 * Math.PI,
+							false
+						);
+
+						context.fill();
+						context.stroke();
+					}
+				};
+
+				(function renderLoop() {
+					((function(){
+						return window.requestAnimationFrame ||
+							window.webkitRequestAnimationFrame ||
+							window.mozRequestAnimationFrame ||
+							function(callback){ window.setTimeout(callback, 1000 / 60); };
+					})())(renderLoop);
+
+					render();
+				})();
+			};
+
+		</script>
+	</head>
+	<body><canvas id="nodes" width="640" height="480"></canvas></body>
+</html>
