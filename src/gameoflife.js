@@ -90,7 +90,7 @@ var GameOfLife = function(width, height, loops) {
 	this.isCellAlive = function(x, y) {
 		var position = getIndex(x, y);
 
-		return inhabitants[position];
+		return inhabitants[position] == true;
 	};
 
 	this.spawnCell = function(x, y) {
