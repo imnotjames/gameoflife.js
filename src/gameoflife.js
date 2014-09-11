@@ -63,6 +63,14 @@ var GameOfLife = function(width, height, loops) {
 		return height;
 	};
 
+	this.clear = function() {
+		for (var position in inhabitants) {
+			if (inhabitants.hasOwnProperty(position) && inhabitants[position]) {
+				transaction[position] = false;
+			}
+		}
+	};
+
 	this.getInhabitants = function() {
 		var coordinates = [];
 
