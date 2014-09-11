@@ -168,6 +168,8 @@ var GameOfLife = function(width, height, loops) {
 	};
 
 	this.step = function() {
+		this.commit();
+
 		var potential = getPotentialCells();
 
 		for (var i in potential) {
