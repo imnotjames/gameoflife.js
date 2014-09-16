@@ -11,5 +11,55 @@
 	<body>
 		<a href="https://github.com/imnotjames"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 		<canvas id="nodes" width="640" height="480"></canvas>
+		<article>
+			<header>
+				<h2>
+					gameoflife.js
+					&mdash;
+					<img src="https://travis-ci.org/imnotjames/gameoflife.js.svg?branch=master" alt="Build Status" />
+				</h2>
+			</header>
+
+			<p>
+
+			</p>
+
+			<p>
+				Another implementation of Conway's Game of Life in javascript!
+				How new and original, right?  This implementation does not
+				include any graphical elements in the core repository and is
+				only handling the computations involved.  For the most part it
+				has been used when trying to explain concepts in javascript to
+				other people but it works quite well in its own regard!
+			</p>
+
+			<p>
+				Conway's game of life is a fairly simple zero-player game which
+				revolves around cellular automaton following a small set of
+				rules to change state.  The rules are related to the neighbors
+				surrounding a specific cell.
+			</p>
+
+			<p>
+				The rules are thus:
+			</p>
+
+			<ul>
+				<li>Any live cells with less than two live neigbors dies</li>
+				<li>Any live cells with two or three live neigbors lives</li>
+				<li>Any live cells with more than three live neigbors dies</li>
+				<li>Any dead cells with exactly three live neigbors lives again</li>
+			</ul>
+
+			<p>
+				There are many known patterns in this game which give known
+				results.  Pictured left are spaceships, specifically Schick
+				ships.
+			</p>
+
+			<a href="https://github.com/imnotjames/gameoflife.js">
+				Check it out on github!
+			</a>
+		</article>
 	</body>
 </html>
