@@ -12,6 +12,9 @@
   "bugs": {
     "url": "https://github.com/imnotjames/gameoflife.js/issues"
   },
+  "scripts": {
+    "test": "grunt jasmine --verbose"
+  },
   "homepage": "https://github.com/imnotjames/gameoflife.js",
   "devDependencies": {
     "grunt": "^0.4.5",
