@@ -5,31 +5,34 @@ describe('Game of Life', function() {
 	// I want to follow the rules of Conway's Game of Life
 	// So that we are able to simulate simple life
 
-	// Scenario 1
-	it('should initiate with the correct cells before running', function() {
-		// Given that a Game of Life object is instantiated
-		var game = new GameOfLife(5, 5);
+	var game;
 
-		// When it is given a list of live cells
-		game.spawnCell(1, 1);
-		game.spawnCell(1, 2);
-		game.commit();
-
-		// Then those cells should be the only live cells
-		expect(game.getInhabitants().length).toEqual(2);
-		expect(game.isCellAlive(1, 1)).toBeTruthy();
-		expect(game.isCellAlive(1, 2)).toBeTruthy();
+	beforeEach(function() {
+		game = new GameOfLife(5, 5);
 	});
 
-	// Scenario 2
+	// Scenario 1
 	it('should kill lonely cells', function() {
-		// Given that a Game of Life object is instantiated
-		var game = new GameOfLife(4, 4);
-
 		// Given that a cell is alive
 		game.spawnCell(1, 1);
 
-		// And that cell has fewer than two live neighbors
+		// And that cell has fewer no live neighbors
+		game.commit();
+
+		// When a simulation step has executed
+		game.step();
+
+		// Then that cell should die
+		expect(game.getInhabitants().length).toEqual(0);
+	});
+
+	// Scenario 2
+	it('should kill cells with only one neighbor', function() {
+		// Given that a cell is alive
+		game.spawnCell(1, 1);
+
+		// And that cell has exactly one live neighbor
+		game.spawnCell(1, 2);
 		game.commit();
 
 		// When a simulation step has executed
@@ -40,14 +43,11 @@ describe('Game of Life', function() {
 	});
 
 	// Scenario 3
-	it('should leave goldilocks cells alone', function() {
-		// Given that a Game of Life object is instantiated
-		var game = new GameOfLife(4, 4);
-
-		// And a cell is alive
+	it('should leave cells with two neighbors alone', function() {
+		// Given that a cell is alive
 		game.spawnCell(1, 1);
 
-		// And that cell has two or three live neighbors
+		// And that cell has two live neighbors
 		game.spawnCell(1, 2);
 		game.spawnCell(2, 1);
 
@@ -61,11 +61,27 @@ describe('Game of Life', function() {
 	});
 
 	// Scenario 4
-	it('should kill overpopulated cells', function() {
-		// Given that a Game of Life object is instantiated
-		var game = new GameOfLife(4, 4);
+	it('should leave cells with three neighbors alone', function() {
+		// Given that a cell is alive
+		game.spawnCell(1, 1);
 
-		// And a cell is alive
+		// And that cell has three live neighbors
+		game.spawnCell(1, 2);
+		game.spawnCell(2, 1);
+		game.spawnCell(1, 0);
+
+		game.commit();
+
+		// When a simulation step has executed
+		game.step();
+
+		// Then that cell should continue to live
+		expect(game.isCellAlive(1, 1)).toBeTruthy();
+	});
+
+	// Scenario 5
+	it('should kill overpopulated cells', function() {
+		// Given that a cell is alive
 		game.spawnCell(1, 1);
 
 		// And that cell has more than three live neighbors
@@ -81,12 +97,9 @@ describe('Game of Life', function() {
 		expect(game.isCellAlive(1, 1)).not.toBeTruthy();
 	});
 
-	// Scenario 5
+	// Scenario 6
 	it('should reproduce into any cells with exactly three neighbors', function() {
-		// Given that a Game of Life object is instantiated
-		var game = new GameOfLife(4, 4);
-
-		// And a cell is dead
+		// Given that a cell is dead
 		game.killCell(1, 1);
 
 		// And that cell has exactly three live neighbors
