@@ -16,7 +16,7 @@ describe('Game of Life', function() {
 		// Given that a cell is alive
 		game.spawnCell(1, 1);
 
-		// And that cell has fewer no live neighbors
+		// And that cell has no live neighbors
 		game.commit();
 
 		// When a simulation step has executed
