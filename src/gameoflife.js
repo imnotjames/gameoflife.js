@@ -42,6 +42,8 @@ var GameOfLife = function(width, height, loops) {
 	var getPotentialCells = function() {
 		var potential = [];
 
+		var potentialSet = {};
+
 		for (var i in inhabitants) {
 			if (!inhabitants.hasOwnProperty(i)) {
 				continue;
@@ -52,7 +54,13 @@ var GameOfLife = function(width, height, loops) {
 			for (var j = 0; j < 9; j++) {
 				var cellIndex = i + ((j % 3) - 1) + (width * (Math.floor(j / 3) - 1));
 
-				potential[cellIndex] = potential[cellIndex] || cellIndex == i;
+				potentialSet[cellIndex] = true;
+			}
+		}
+
+		for (var i in potentialSet) {
+			if (potentialSet.hasOwnProperty(i)) {
+				potential.push(i);
 			}
 		}
 
@@ -191,8 +199,8 @@ var GameOfLife = function(width, height, loops) {
 
 		var potential = getPotentialCells();
 
-		for (var i in potential) {
-			var cell = getCoordinates(i);
+		for (var i = 0; i < potential.length; i++) {
+			var cell = getCoordinates(potential[i]);
 
 			if (!cell) {
 				continue;
