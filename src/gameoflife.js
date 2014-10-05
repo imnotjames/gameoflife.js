@@ -66,7 +66,10 @@ var GameOfLife = function(width, height, loops) {
 	this.clear = function() {
 		for (var position in inhabitants) {
 			if (inhabitants.hasOwnProperty(position) && inhabitants[position]) {
-				transaction[position] = false;
+				transaction.push({
+					index: position,
+					alive: false
+				});
 			}
 		}
 	};
@@ -96,17 +99,27 @@ var GameOfLife = function(width, height, loops) {
 	this.spawnCell = function(x, y) {
 		var position = getIndex(x, y);
 
-		if (typeof position !== "undefined" && !inhabitants[position]) {
-			transaction[position] = true;
+		if (typeof position === "undefined") {
+			return;
 		}
+
+		transaction.push({
+			index: position,
+			alive: true
+		});
 	};
 
 	this.killCell = function(x, y) {
 		var position = getIndex(x, y);
 
-		if (typeof position !== "undefined" && inhabitants[position]) {
-			transaction[position] = false;
+		if (typeof position === "undefined") {
+			return;
 		}
+
+		transaction.push({
+			index: position,
+			alive: false
+		});
 	};
 
 	this.getNeighbors = function(x, y) {
@@ -150,12 +163,8 @@ var GameOfLife = function(width, height, loops) {
 			return;
 		}
 
-		for (var i in transaction) {
-			if (transaction[i]) {
-				inhabitants[i] = true;
-			} else {
-				inhabitants[i] = false;
-			}
+		for (var i = 0; i < transaction.length; i++) {
+			inhabitants[transaction[i].index] = transaction[i].alive;
 		}
 
 		for (var i in inhabitants) {
@@ -164,7 +173,7 @@ var GameOfLife = function(width, height, loops) {
 			}
 		}
 
-		transaction.splice(0);
+		transaction.length = 0;
 	};
 
 	this.step = function() {
