@@ -43,6 +43,10 @@ var GameOfLife = function(width, height, loops) {
 		var potential = [];
 
 		for (var i in inhabitants) {
+			if (!inhabitants.hasOwnProperty(i)) {
+				continue;
+			}
+
 			// i is a string for some reason
 			i = +i;
 			for (var j = 0; j < 9; j++) {
@@ -65,12 +69,14 @@ var GameOfLife = function(width, height, loops) {
 
 	this.clear = function() {
 		for (var i in inhabitants) {
-			if (inhabitants.hasOwnProperty(i) && inhabitants[i]) {
-				transaction.push({
-					index: i,
-					alive: false
-				});
+			if (!inhabitants.hasOwnProperty(i) || inhabitants[i]) {
+				continue;
 			}
+
+			transaction.push({
+				index: i,
+				alive: false
+			});
 		}
 	};
 
@@ -78,7 +84,7 @@ var GameOfLife = function(width, height, loops) {
 		var coordinates = [];
 
 		for (var i in inhabitants) {
-			if (!inhabitants[i]) {
+			if (!inhabitants.hasOwnProperty(i) || !inhabitants[i]) {
 				continue;
 			}
 
@@ -168,6 +174,10 @@ var GameOfLife = function(width, height, loops) {
 		}
 
 		for (var i in inhabitants) {
+			if (!inhabitants.hasOwnProperty(i)) {
+				continue;
+			}
+
 			if (!inhabitants[i]) {
 				delete inhabitants[i];
 			}
