@@ -64,10 +64,10 @@ var GameOfLife = function(width, height, loops) {
 	};
 
 	this.clear = function() {
-		for (var position in inhabitants) {
-			if (inhabitants.hasOwnProperty(position) && inhabitants[position]) {
+		for (var i in inhabitants) {
+			if (inhabitants.hasOwnProperty(i) && inhabitants[i]) {
 				transaction.push({
-					index: position,
+					index: i,
 					alive: false
 				});
 			}
