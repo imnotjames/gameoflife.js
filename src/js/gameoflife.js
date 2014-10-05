@@ -43,6 +43,10 @@ var GameOfLife = function(width, height, loops) {
 		var potential = [];
 
 		for (var i in inhabitants) {
+			if (!inhabitants.hasOwnProperty(i)) {
+				continue;
+			}
+
 			// i is a string for some reason
 			i = +i;
 			for (var j = 0; j < 9; j++) {
@@ -64,13 +68,15 @@ var GameOfLife = function(width, height, loops) {
 	};
 
 	this.clear = function() {
-		for (var position in inhabitants) {
-			if (inhabitants.hasOwnProperty(position) && inhabitants[position]) {
-				transaction.push({
-					index: position,
-					alive: false
-				});
+		for (var i in inhabitants) {
+			if (!inhabitants.hasOwnProperty(i) || inhabitants[i]) {
+				continue;
 			}
+
+			transaction.push({
+				index: i,
+				alive: false
+			});
 		}
 	};
 
@@ -78,7 +84,7 @@ var GameOfLife = function(width, height, loops) {
 		var coordinates = [];
 
 		for (var i in inhabitants) {
-			if (!inhabitants[i]) {
+			if (!inhabitants.hasOwnProperty(i) || !inhabitants[i]) {
 				continue;
 			}
 
@@ -147,7 +153,7 @@ var GameOfLife = function(width, height, loops) {
 
 		var neighbors = this.getNeighbors(x, y);
 
-		for(var i in neighbors) {
+		for(var i = 0; i < neighbors.length; i++) {
 			var neighbor = neighbors[i];
 
 			if (this.isCellAlive(neighbor.x, neighbor.y)) {
@@ -168,6 +174,10 @@ var GameOfLife = function(width, height, loops) {
 		}
 
 		for (var i in inhabitants) {
+			if (!inhabitants.hasOwnProperty(i)) {
+				continue;
+			}
+
 			if (!inhabitants[i]) {
 				delete inhabitants[i];
 			}
