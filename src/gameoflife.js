@@ -147,7 +147,7 @@ var GameOfLife = function(width, height, loops) {
 
 		var neighbors = this.getNeighbors(x, y);
 
-		for(var i in neighbors) {
+		for(var i = 0; i < neighbors.length; i++) {
 			var neighbor = neighbors[i];
 
 			if (this.isCellAlive(neighbor.x, neighbor.y)) {
