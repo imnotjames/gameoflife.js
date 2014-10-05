@@ -164,7 +164,7 @@ var GameOfLife = function(width, height, loops) {
 			}
 		}
 
-		transaction.length = 0;
+		transaction.splice(0);
 	};
 
 	this.step = function() {
